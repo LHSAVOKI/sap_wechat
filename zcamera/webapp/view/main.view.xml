@@ -1,0 +1,15 @@
+<mvc:View controllerName="com.sap.ctu.zcamera.controller.main" xmlns:mvc="sap.ui.core.mvc" xmlns:cam="openui5.camera" displayBlock="true" xmlns="sap.m">
+	<Shell id="shell">
+		<App id="app">
+			<pages>
+				<Page id="page" title="{i18n>title}">
+					<content>
+						<Text text="Hello World"/>
+						<div>Jerry Hello</div>
+						<video/>
+					</content>
+				</Page>
+			</pages>
+		</App>
+	</Shell>
+</mvc:View>

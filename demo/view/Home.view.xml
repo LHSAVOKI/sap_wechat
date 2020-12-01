@@ -1,0 +1,82 @@
+<mvc:View
+        xmlns:html="http://www.w3.org/1999/xhtml"
+        xmlns:mvc="sap.ui.core.mvc"
+	    xmlns:l="sap.ui.layout"
+	    xmlns:f="sap.ui.layout.form"
+	    xmlns:lab="openui5.camera"
+	    xmlns:core="sap.ui.core"
+	    xmlns="sap.m"
+        controllerName="Camera.controller.Home"
+        displayBlock="true">
+	<App>
+		<pages>
+			<Page title="{i18n>appTitle}">
+				<content>
+                    <ObjectHeader
+				            title="Camera control demo"
+				            backgroundDesign="Solid"
+				            number="{/photos/length}"
+				            numberUnit="photos" >
+			        </ObjectHeader>
+			        <IconTabBar
+				            expanded="{device>/isNoPhone}"
+				            class="sapUiSmallMarginBottom sapUiResponsiveContentPadding"
+                            select="onTabSelect">
+				        <items>
+					        <IconTabFilter
+						            text="Demo"
+                                    key="demo">
+                                <l:DynamicSideContent
+			                            class="sapUiDSCExplored sapUiContentPadding"
+			                            sideContentFallDown="BelowM"
+			                            containerQuery="true"
+			                            showSideContent="true">
+			                        <l:mainContent>
+                                        <lab:Camera
+                                                id="idCamera"
+                                                width="800"
+                                                height="600"
+                                                snapshot=".onSnapshot"
+                                                singleShotMode="false" />
+			                        </l:mainContent>
+			                        <l:sideContent>
+                                        <List
+                	                            headerText="Photos"
+                	                            growing="false"
+                	                            items="{
+                		                               path: '/photos'
+                	                                   }"
+                                                noDataText="{i18n>nophotos}"
+                                                >
+                	                        <CustomListItem>
+                		                        <Image
+                			                            src="{src}"
+                			                            densityAware="false"
+                			                            height="100px" >
+                		                        </Image>
+                	                        </CustomListItem>
+                                        </List>
+			                        </l:sideContent>
+                                </l:DynamicSideContent>
+					        </IconTabFilter>
+					        <IconTabFilter
+						            text="About &amp; Usage"
+                                    key="info">
+                                <Panel headerText="{i18n>title.about}" width="auto" class="sapUiResponsiveMargin">
+                                    <Text text="{i18n>about}" />
+                                    <FormattedText target="_blank"
+                                          htmlText="{i18n>usage}"/>
+                                </Panel>
+                                <Panel headerText="{i18n>title.author}" width="auto" class="sapUiResponsiveMargin">
+                                    <Link target="_blank"
+                                          href="https://twitter.com/tiagobalmeida"
+                                          text="Tiago Almeida - @tiagobalmeida"/>
+                                </Panel>
+					        </IconTabFilter>
+				        </items>
+			        </IconTabBar>
+				</content>
+			</Page>
+		</pages>
+	</App>
+</mvc:View>

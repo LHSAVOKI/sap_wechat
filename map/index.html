@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Jerry's map practice</title>
+</head>
+
+<style>
+
+body {
+  margin: 10px;
+  color: #4c5667;
+  height: 100%;
+  overflow-x: hidden !important;
+}
+
+html {
+  overflow-x: hidden;
+  position: relative;
+  min-height: 100%;
+  height: 100%;
+}
+
+.form-control {
+    width: 90%;
+    height: auto;
+}
+
+.map {
+  height: 90%;
+  width: 95%;
+}
+
+</style>
+<link href="bmap.css" rel="stylesheet" type="text/css">
+
+<body onload = "findDefaultLocation()">
+
+        <div class = "map" id= "map_addressInfo"></div>
+        <label  class="control-label">Type Search Address here</label>
+        <div>
+            <textarea class="form-control" id = "address" rows="1">成都</textarea>
+        </div>
+
+        <button onclick = "search()">Search</button>
+
+<script src="baidu.js"></script>
+<script>
+var vm = {};
+vm.map = new BMap.Map("map_addressInfo");
+</script>
+
+<script>
+
+function _search(address){
+
+  var localSearch = new BMap.LocalSearch(vm.map, { renderOptions: { map: vm.map, autoViewport: true} });
+  vm.map.clearOverlays(); 
+
+  localSearch.setSearchCompleteCallback(function (searchResult) {
+    var poi = searchResult.getPoi(0);
+    if(!poi){
+      alert("no address found for Address: " + address);
+      return;
+    }
+    vm.map.centerAndZoom(poi.point, 13);
+  });
+  localSearch.search(address);
+}
+
+function search(){
+  _search(getUserInput());
+}
+
+function getUserInput(){
+  return document.getElementById("address").value;
+}
+
+function findDefaultLocation(){
+    
+    var routePolicy = [BMAP_DRIVING_POLICY_LEAST_TIME,BMAP_DRIVING_POLICY_LEAST_DISTANCE,BMAP_DRIVING_POLICY_AVOID_HIGHWAYS];
+        
+    vm.map.zoomTo(10);
+
+    vm.map.enableScrollWheelZoom();
+    vm.map.enableKeyboard();
+    vm.map.enableContinuousZoom();
+    vm.map.enableInertialDragging();
+
+    vm.map.addControl(new BMap.NavigationControl()); 
+    vm.map.addControl(new BMap.ScaleControl());      
+    vm.map.addControl(new BMap.OverviewMapControl()); 
+    vm.map.addControl(new BMap.MapTypeControl());
+
+    search();
+}
+</script>
+</body>
+</html>

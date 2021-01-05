@@ -15,7 +15,7 @@ routesEngine(app);
 
 console.log("process.env.PORT: " + process.env.PORT);
 
-var port = process.env.PORT || 3000;
+var port = process.env.PORT || 80;
 
 app.listen(port, function () {
   console.log("Listening on port: " + port );

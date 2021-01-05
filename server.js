@@ -20,5 +20,32 @@ var port = process.env.PORT || 3000;
 app.listen(port, function () {
   console.log("Listening on port: " + port );
 });
+var request = require('request');
+var jsSHA = require('jssha');
 
+module.exports = function (app) {
+  app.route('/').get(function(req,res){
+    var token="jerry"; // replace it with your own token
+    var signature = req.query.signature,
+      timestamp = req.query.timestamp,
+      echostr   = req.query.echostr,
+      nonce     = req.query.nonce;
+      oriArray = new Array();
+      oriArray[0] = nonce;
+      oriArray[1] = timestamp;
+      oriArray[2] = token;
+      oriArray.sort();
+      var original = oriArray.join('');
+
+      var shaObj = new jsSHA("SHA-1", 'TEXT');
+      shaObj.update(original);
+      var scyptoString = shaObj.getHash('HEX');
+      console.log("calculated string: " + scyptoString);
+     if (signature == scyptoString) {
+        res.send(echostr);
+     } else {
+        res.send('bad token');
+     }
+  });
+};
    
